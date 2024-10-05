@@ -33,17 +33,15 @@
 
 /* Stack Sizes */
 
-	_HEAPSIZE = 1024;
+	/* _HEAPSIZE = 1024; */
 
 /* Memory Definitions */
 
 MEMORY
 {
-	DATA (rw) : ORIGIN = 0x0, LENGTH = 0x2400
-	XDATA (rw) : ORIGIN = 0x2400, LENGTH = 0x4000
+	DATA (rwx) : ORIGIN = 0x0, LENGTH = 0x3000
+	XDATA (rwx) : ORIGIN = 0x3000, LENGTH = 0x1000
 }
-
-__stack_end__ = 0x4000;
 
 /* Section Definitions */
 
@@ -51,10 +49,10 @@ SECTIONS
 {
 	/* first section is .text which is used for code */
 
-        .startup : 
-        {
-                KEEP(*(.startup))
-        } > XDATA =0
+	.startup : 
+	{
+			KEEP(*(.startup))
+	} > XDATA =0
 
 	.text :
 	{
@@ -112,23 +110,22 @@ SECTIONS
 	PROVIDE(end = .);
 
 	/* .heap section which is used for memory allocation */
-
-	.heap (NOLOAD) :
+	.heap 0x1000 (NOLOAD) :
 	{
 		__heap_start__ = .;
 		*(.heap)
-		. = MAX(__heap_start__ + _HEAPSIZE , .);
+		. = __heap_start__ + 1024;
 	} >DATA
 	__heap_end__ = __heap_start__ + SIZEOF(.heap);
+
 	/* .stack section - user mode stack */
-
-
-	.stack (__heap_end__ + 3) / 4 * 4 (NOLOAD) :
+	.stack 0x1400 (NOLOAD) :
 	{
-	   __stack_start__ = .;
+	   __stack_start__ = __heap_end__;
 	   *(.stack)
-	   . = __stack_end__;
-	} >XDATA
+	   . = 0x3000 - 0x1400;
+	} >DATA
+	__stack_end__ = .;
 
 }
 

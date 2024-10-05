@@ -14,7 +14,7 @@
 # To rebuild project do "make clean" then "make all".
 #
 
-TCHAIN = arm-rtems
+TCHAIN = arm-none-eabi
 
 # MCU name and submodel
 MCU      = arm7tdmi
