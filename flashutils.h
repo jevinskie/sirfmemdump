@@ -18,7 +18,7 @@
 
 
 #ifndef FLASHUTILS_H
-#define FLAHUTILS_H
+#define FLASHUTILS_H
 
 #include <termios.h>
 #include <stdio.h>

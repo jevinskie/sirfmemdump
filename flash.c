@@ -465,7 +465,7 @@ static int program_sector(int pfd, unsigned addr, uint8_t *data, unsigned data_s
   struct {
      uint32_t addr;
      uint8_t payload[MDPROTO_CMD_MAX_RAW_DATA_SIZE-4];
-  } __packed t_req;
+  } __attribute__((packed)) t_req;
   struct mdproto_cmd_buf_t cmd;
 
   assert((sizeof(t_req.payload) % 4) == 0);
@@ -545,7 +545,7 @@ int cmd_program_word(int pfd, unsigned addr, uint16_t word)
   struct {
      uint32_t addr;
      uint16_t payload;
-  } __packed t_req;
+  } __attribute__((packed)) t_req;
   struct mdproto_cmd_buf_t cmd;
 
   gpsd_report(LOG_PROG, "FLASH-PROGRAM 0x%x = 0x%04x...\n", addr, (unsigned)word);
